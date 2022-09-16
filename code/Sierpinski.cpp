@@ -13,14 +13,22 @@ int main()
 
 	RenderWindow window(vm, "Sierpinski!!", Style::Default);
 
-	RectangleShape rect({100,100});
+	RectangleShape rect1({3,3});
+	RectangleShape rect2({3,3});
+	RectangleShape rect3({3,3});
+
+	Vector2f rect1pos;
+	Vector2f rect2pos;
+	Vector2f rect3pos;
+
 	//main coords of the main triangle//
 	vector<Vector2f> vertices;
 	//the points inbetween//
 	vector<Vector2f> points;
 
-	//what is clicked
-	Vector2f clicked;
+	int VERT_COUNT=0;
+
+
 
 
 	while (window.isOpen())
@@ -37,16 +45,62 @@ int main()
 			{
 				window.close();
 			}
+
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
-    			if (event.mouseButton.button == sf::Mouse::Left)
+    			if ((event.mouseButton.button == sf::Mouse::Left)&& VERT_COUNT<3)
 				{
-       		 	std::cout << "the Left Mouse button was pressed" << std::endl;
-        		std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-        		std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 
-				clicked.x =event.mouseButton.x;
-				clicked.y=event.mouseButton.y;
+				if (VERT_COUNT==0)
+				{
+
+					rect1pos.x = event.mouseButton.x;
+					rect1pos.y = event.mouseButton.y;
+
+					//changing int to float
+					rect1pos.x+=0.0;
+					rect1pos.y+=0.0;
+
+					vertices.push_back({rect1pos.x,rect1pos.y});
+
+					cout<< " Vertex 1: "<< rect1pos.x << " x , " << rect1pos.y << " y."<< endl;
+
+					
+
+				}
+
+
+				if (VERT_COUNT==1)
+				{
+					rect2pos.x = event.mouseButton.x;
+					rect2pos.y = event.mouseButton.y;
+
+					rect2pos.x+=0.0;
+					rect2pos.y+=0.0;
+
+					vertices.push_back({rect2pos.x,rect2pos.y});
+
+					cout<< " Vertex 2: "<< rect2pos.x << " x , " << rect2pos.y << " y."<< endl;
+
+				}
+
+				if (VERT_COUNT==2){
+					rect3pos.x = event.mouseButton.x;
+					rect3pos.y = event.mouseButton.y;
+
+					rect3pos.x+=0.0;
+					rect3pos.y+=0.0;
+
+					vertices.push_back({rect3pos.x,rect3pos.y});
+
+					cout<< " Vertex 3: "<< rect3pos.x << " x , " << rect3pos.y << " y."<< endl;
+				}
+				
+				if (VERT_COUNT<3)
+				{
+					VERT_COUNT++;
+				}
+
     			}
 			}
 		}
@@ -60,7 +114,10 @@ int main()
 		Update the scene
 		****************************************
 		*/
-		rect.setPosition(clicked.x, clicked.y);
+
+		rect1.setPosition(rect1pos.x, rect1pos.y);
+		rect2.setPosition(rect2pos.x, rect2pos.y);
+		rect3.setPosition(rect3pos.x, rect3pos.y);
 
 
 		/*
@@ -70,10 +127,12 @@ int main()
 		*/
 
 		//loop through vectors and draw each coordinate//
-		// Clear everything from the last run frame
-		window.clear();
+		// Clear everything from the last run frame//
 		// Draw our game scene here
-		window.draw(rect);
+		window.clear();
+		window.draw(rect1);
+		window.draw(rect2);
+		window.draw(rect3);
 		window.display();
     }
     return 0;
